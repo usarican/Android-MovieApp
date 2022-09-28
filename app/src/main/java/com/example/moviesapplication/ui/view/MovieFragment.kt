@@ -10,13 +10,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapplication.R
+import com.example.moviesapplication.data.Genre
+import com.example.moviesapplication.data.Genres
+import com.example.moviesapplication.data.Movie
 import com.example.moviesapplication.ui.adapter.MovieAdapter
 import com.example.moviesapplication.ui.viewmodel.MovieViewModel
 
 class MovieFragment : Fragment() {
 
     private lateinit var movieViewModel : MovieViewModel
-    private val movieAdapter = MovieAdapter(arrayListOf())
+    private val movieAdapter = MovieAdapter(arrayListOf(), listOf())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,20 +37,32 @@ class MovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         movieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
-        movieViewModel.getData()
+        observeLiveData()
+        movieViewModel.getMovieData("1")
+        movieViewModel.getGenres()
+
 
         val movieRecyclerView = view.findViewById<RecyclerView>(R.id.movie_list)
-        movieRecyclerView.layoutManager = GridLayoutManager(context,3)
+        movieRecyclerView.layoutManager = GridLayoutManager(context,2)
         movieRecyclerView.adapter = movieAdapter
 
-        observeLiveData()
     }
 
     fun observeLiveData(){
-        movieViewModel.moviesLiveData.observe(viewLifecycleOwner, Observer { movies ->
-            movies?.let {
-                movieAdapter.updateMovieList(movies)
+        movieViewModel.getMoviesLiveData().observe(viewLifecycleOwner,object : Observer<Movie>{
+            override fun onChanged(t: Movie?) {
+                if(t!= null){
+                   movieAdapter.updateMovieList(t.results)
+                }
             }
+        })
+        movieViewModel.getGenreList().observe(viewLifecycleOwner,object : Observer<Genres>{
+            override fun onChanged(t: Genres?) {
+                if(t!=null){
+                    movieAdapter.setGenreList(t.genres)
+                }
+            }
+
         })
     }
 
