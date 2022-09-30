@@ -7,5 +7,5 @@ data class Result(
    val title : String,
    @SerializedName("poster_path") val image : String,
    @SerializedName("vote_average") val score : Double,
-   @SerializedName("genre_ids") val genres : List<Int>
+   @SerializedName("genre_ids") val genres : List<Int>,
 )

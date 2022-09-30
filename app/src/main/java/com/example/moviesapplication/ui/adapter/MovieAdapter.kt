@@ -45,12 +45,12 @@ class MovieAdapter(
             .load("https://image.tmdb.org/t/p/w500"+results[position].image)
             .into(holder.movieItem_imageView)
         val genreIds = results[position].genres
+        val id = results[position].id
         holder.movieItem_genres.text =  getGenreText(genreIds,genreList)
-        println("Text ${holder.movieItem_genres.text}")
 
 
         holder.view.setOnClickListener {
-            val action = MovieFragmentDirections.actionMovieFragmentToMovieDetailsFragment()
+            val action = MovieFragmentDirections.actionMovieFragmentToMovieDetailsFragment(id)
             Navigation.findNavController(it).navigate(action)
         }
 
