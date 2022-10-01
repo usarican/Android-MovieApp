@@ -17,7 +17,7 @@ class MovieViewModel : ViewModel() {
     fun getGenreList() : LiveData<Genres> = genres
 
     fun getMovieData(page : String){
-        movieRepository.getMovieData("",movie)
+        movieRepository.getMovieData(page,movie)
     }
     fun getGenres(){
         movieRepository.getGenres(genres)

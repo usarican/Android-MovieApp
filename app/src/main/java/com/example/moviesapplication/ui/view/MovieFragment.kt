@@ -1,25 +1,35 @@
 package com.example.moviesapplication.ui.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapplication.R
-import com.example.moviesapplication.data.Genre
 import com.example.moviesapplication.data.Genres
 import com.example.moviesapplication.data.Movie
+import com.example.moviesapplication.data.Result
 import com.example.moviesapplication.ui.adapter.MovieAdapter
 import com.example.moviesapplication.ui.viewmodel.MovieViewModel
+import com.google.android.material.textfield.TextInputEditText
+
 
 class MovieFragment : Fragment() {
 
+    private var page = 1
+    private var isLoading = false
+    private val layoutManager = GridLayoutManager(context,2)
     private lateinit var movieViewModel : MovieViewModel
     private val movieAdapter = MovieAdapter(arrayListOf(), listOf())
+    private var movieList = mutableListOf<Result>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,13 +48,38 @@ class MovieFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         movieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
         observeLiveData()
-        movieViewModel.getMovieData("1")
+        movieViewModel.getMovieData(page.toString())
         movieViewModel.getGenres()
 
 
         val movieRecyclerView = view.findViewById<RecyclerView>(R.id.movie_list)
-        movieRecyclerView.layoutManager = GridLayoutManager(context,2)
+        val searchMovie = view.findViewById<TextInputEditText>(R.id.movie_searchEditText)
+        movieRecyclerView.layoutManager = layoutManager
         movieRecyclerView.adapter = movieAdapter
+
+        searchMovie.addTextChangedListener {
+            filterList(it.toString())
+        }
+
+    }
+
+    private fun filterList(p0: String) {
+        var filteredList = mutableListOf<Result>()
+        if(p0.isNotEmpty()){
+            for (movie in movieList){
+                if(movie.title.lowercase().contains(p0.lowercase())){
+                    filteredList.add(movie)
+                }
+            }
+            if(filteredList.isEmpty()){
+                Toast.makeText(context,"No Data Found",Toast.LENGTH_LONG).show()
+            }
+            movieAdapter.updateMovieList(filteredList)
+        }
+        else {
+            movieAdapter.updateMovieList(movieList)
+        }
+
 
     }
 
@@ -52,7 +87,13 @@ class MovieFragment : Fragment() {
         movieViewModel.getMoviesLiveData().observe(viewLifecycleOwner,object : Observer<Movie>{
             override fun onChanged(t: Movie?) {
                 if(t!= null){
-                   movieAdapter.updateMovieList(t.results)
+                    movieAdapter.updateMovieList(t.results)
+                    if(movieList.isEmpty()){
+                        movieList.addAll(t.results)
+                    }else {
+                        movieList.clear()
+                        movieList.addAll(t.results)
+                    }
                 }
             }
         })

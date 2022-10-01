@@ -3,6 +3,7 @@ package com.example.moviesapplication.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.Navigation
@@ -17,6 +18,8 @@ class MovieAdapter(
     private var results: List<Result>,
     private var genreList : List<Genre>
 ) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+
+    private var filterResult = listOf<Result>()
 
     class MovieViewHolder(var view : View) : RecyclerView.ViewHolder(view){
         val movieItem_imageView : ImageView
@@ -62,9 +65,9 @@ class MovieAdapter(
 
     fun updateMovieList(resultList : List<Result>){
         results = resultList
-        println("Result:$results")
         notifyDataSetChanged()
     }
+
 
     fun setGenreList(list:List<Genre>){
         genreList = list
@@ -74,14 +77,17 @@ class MovieAdapter(
 
     fun getGenreText(genreIds : List<Int>,genreList : List<Genre?>) : String {
         var genreString = ""
-        val genreId = genreIds[0]
-        for(genre in genreList){
+        try {
+            val genreId = genreIds[0]
+            for(genre in genreList){
                 genre?.let {
                     if(genreId == genre.id){
                         genreString += (genre.name + " ")
                     }
                 }
-
+            }
+        }catch (e: Exception){
+            e.stackTrace
         }
         return genreString
     }
