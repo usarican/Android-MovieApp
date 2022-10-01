@@ -3,14 +3,13 @@ package com.example.moviesapplication.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapplication.R
-import com.example.moviesapplication.data.Genre
-import com.example.moviesapplication.data.Result
+import com.example.moviesapplication.data.model.Genre
+import com.example.moviesapplication.data.model.Result
 import com.example.moviesapplication.ui.view.MovieFragmentDirections
 import com.squareup.picasso.Picasso
 

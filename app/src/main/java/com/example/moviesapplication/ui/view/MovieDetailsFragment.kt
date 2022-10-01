@@ -5,20 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.moviesapplication.R
-import com.example.moviesapplication.data.Genre
-import com.example.moviesapplication.data.MovieDetails
+import com.example.moviesapplication.data.model.Genre
+import com.example.moviesapplication.data.model.MovieDetails
 import com.example.moviesapplication.ui.viewmodel.MovieDetailsViewModel
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MovieDetailsFragment : Fragment() {
 
     private lateinit var movieDetailsViewModel: MovieDetailsViewModel

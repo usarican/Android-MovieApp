@@ -1,26 +1,22 @@
 package com.example.moviesapplication.data.remote
 
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.moviesapplication.data.model.Genres
+import com.example.moviesapplication.data.model.Movie
+import com.example.moviesapplication.data.model.MovieDetails
+import retrofit2.Call
+import javax.inject.Inject
 
 
-class MovieRemoteDataSource {
-    private val BASE_URL = "https://api.themoviedb.org/"
+class MovieRemoteDataSource @Inject constructor(
+    private val movieService: MovieService
+) {
 
-    private val interceptor = HttpLoggingInterceptor()
-    private val client = OkHttpClient.Builder().addInterceptor(interceptor = interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)).build()
+    fun getPopulerMovies(page : String) : Call<Movie> =
+        movieService.getPopularMovies(page = page)
 
+    fun getGenres() : Call<Genres> =
+        movieService.getGenres()
 
-    private val retrofit = Retrofit
-        .Builder()
-        .baseUrl(BASE_URL)
-        .client(client)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    val service = retrofit.create(MovieService::class.java)
-
-
-
+    fun getMovieDetails(movieId : Int) : Call<MovieDetails> =
+        movieService.getMovieDetails(movie_id = movieId)
 }

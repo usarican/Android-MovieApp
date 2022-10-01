@@ -3,13 +3,16 @@ package com.example.moviesapplication.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.moviesapplication.data.MovieDetails
-import com.example.moviesapplication.data.Result
+import com.example.moviesapplication.data.model.MovieDetails
 import com.example.moviesapplication.domain.repository.MovieRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MovieDetailsViewModel : ViewModel() {
+@HiltViewModel
+class MovieDetailsViewModel @Inject constructor(
+    private val movieRepository: MovieRepository
+) : ViewModel() {
 
-    private val movieRepository  = MovieRepository()
     private val movieDetail = MutableLiveData<MovieDetails>()
     fun getMovieDetailLiveData() : LiveData<MovieDetails> = movieDetail
 

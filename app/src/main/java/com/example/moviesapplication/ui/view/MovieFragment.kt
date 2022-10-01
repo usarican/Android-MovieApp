@@ -1,7 +1,6 @@
 package com.example.moviesapplication.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,18 +12,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapplication.R
-import com.example.moviesapplication.data.Genres
-import com.example.moviesapplication.data.Movie
-import com.example.moviesapplication.data.Result
+import com.example.moviesapplication.data.model.Genres
+import com.example.moviesapplication.data.model.Movie
+import com.example.moviesapplication.data.model.Result
 import com.example.moviesapplication.ui.adapter.MovieAdapter
 import com.example.moviesapplication.ui.viewmodel.MovieViewModel
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MovieFragment : Fragment() {
 
     private var page = 1
-    private var isLoading = false
     private val layoutManager = GridLayoutManager(context,2)
     private lateinit var movieViewModel : MovieViewModel
     private val movieAdapter = MovieAdapter(arrayListOf(), listOf())
