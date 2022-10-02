@@ -5,56 +5,40 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapplication.R
 import com.example.moviesapplication.data.model.Genre
+import com.example.moviesapplication.data.model.Genres
 import com.example.moviesapplication.data.model.Result
+import com.example.moviesapplication.databinding.MovieItemBinding
 import com.example.moviesapplication.ui.view.MovieFragmentDirections
+import com.example.moviesapplication.ui.viewmodel.MovieViewModel
 import com.squareup.picasso.Picasso
 
 class MovieAdapter(
     private var results: List<Result>,
-    private var genreList : List<Genre>
-) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+    private var _genres : Genres
+) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(), MovieClickListener {
 
     private var filterResult = listOf<Result>()
 
-    class MovieViewHolder(var view : View) : RecyclerView.ViewHolder(view){
-        val movieItem_imageView : ImageView
-        val movieItem_itemName : TextView
-        val movieItem_genres : TextView
-        val movieItem_score : TextView
+    class MovieViewHolder(var view : MovieItemBinding) : RecyclerView.ViewHolder(view.root){
 
-        init {
-            movieItem_genres = view.findViewById(R.id.movieList_movieGenres)
-            movieItem_imageView = view.findViewById(R.id.movieList_imageView)
-            movieItem_itemName = view.findViewById(R.id.movieList_movieName)
-            movieItem_score = view.findViewById(R.id.movieList_score)
-        }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_item,parent,false)
+        val inflater = LayoutInflater.from(parent.context)
+        val view = DataBindingUtil.inflate<MovieItemBinding>(inflater,R.layout.movie_item,parent,false)
         return MovieViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.movieItem_itemName.text = results[position].title
-        holder.movieItem_score.text = results[position].score.toString()
-        Picasso.get()
-            .load("https://image.tmdb.org/t/p/w500"+results[position].image)
-            .into(holder.movieItem_imageView)
-        val genreIds = results[position].genres
-        val id = results[position].id
-        holder.movieItem_genres.text =  getGenreText(genreIds,genreList)
-
-
-        holder.view.setOnClickListener {
-            val action = MovieFragmentDirections.actionMovieFragmentToMovieDetailsFragment(id)
-            Navigation.findNavController(it).navigate(action)
-        }
+        holder.view.result = results[position]
+        holder.view.genres = _genres
+        holder.view.listener = this
 
     }
 
@@ -68,26 +52,15 @@ class MovieAdapter(
     }
 
 
-    fun setGenreList(list:List<Genre>){
-        genreList = list
-        println("GenreList : $genreList")
+    fun setGenreList(genres : Genres){
+        _genres = genres
     }
 
 
-    fun getGenreText(genreIds : List<Int>,genreList : List<Genre?>) : String {
-        var genreString = ""
-        try {
-            val genreId = genreIds[0]
-            for(genre in genreList){
-                genre?.let {
-                    if(genreId == genre.id){
-                        genreString += (genre.name + " ")
-                    }
-                }
-            }
-        }catch (e: Exception){
-            e.stackTrace
-        }
-        return genreString
+    override fun onMovieClicked(v: View) {
+        val movieItemId = v.findViewById<TextView>(R.id.movieItem_id)
+        val id = Integer.parseInt(movieItemId.text.toString())
+        val action = MovieFragmentDirections.actionMovieFragmentToMovieDetailsFragment(id)
+        Navigation.findNavController(v).navigate(action)
     }
 }

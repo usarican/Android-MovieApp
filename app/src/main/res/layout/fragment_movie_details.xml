@@ -56,6 +56,18 @@
             app:layout_constraintTop_toBottomOf="@id/movieDetail_appbar"
             />
 
+        <ProgressBar
+            android:id="@+id/moviedetail_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateDrawable="@drawable/progressbar_background"
+            android:indeterminate="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieDetail_divider"
+            />
+
         <ImageView
             android:id="@+id/movieDetails_imageView"
             android:layout_width="match_parent"
@@ -63,21 +75,26 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="2dp"
             android:scaleType="fitXY"
-            app:layout_constraintBottom_toTopOf="@id/movidDetail_info"
+            app:layout_constraintBottom_toTopOf="@id/movieDetail_info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movieDetail_divider"
             tools:src="@tools:sample/backgrounds/scenic" />
 
         <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/customLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:background="@drawable/rounded_background"
             app:layout_constraintBottom_toBottomOf="@id/movieDetails_imageView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="InvalidId">
+
+        </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/movidDetail_info"
+                android:id="@+id/movieDetail_info"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"

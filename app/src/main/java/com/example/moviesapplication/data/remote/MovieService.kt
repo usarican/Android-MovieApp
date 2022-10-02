@@ -26,4 +26,22 @@ interface MovieService {
         @Path("movie_id") movie_id : Int,
         @Query("api_key") apiKey: String = "1c43b969c6e3c21291826ddc75a81aa1",
     ) : Call<MovieDetails>
+
+    @GET("3/movie/now_playing")
+    fun getUpcomingMovies(
+        @Query("api_key") apiKey: String = "1c43b969c6e3c21291826ddc75a81aa1",
+        @Query("page") page : String
+    ) : Call<Movie>
+
+    @GET("3/movie/top_rated")
+    fun getTopRatedMovies(
+        @Query("api_key") apiKey: String = "1c43b969c6e3c21291826ddc75a81aa1",
+        @Query("page") page : String
+    ) : Call<Movie>
+
+    @GET("3/movie/upcoming")
+    fun getNowPlayingMovies(
+        @Query("api_key") apiKey: String = "1c43b969c6e3c21291826ddc75a81aa1",
+        @Query("page") page : String
+    ) : Call<Movie>
 }

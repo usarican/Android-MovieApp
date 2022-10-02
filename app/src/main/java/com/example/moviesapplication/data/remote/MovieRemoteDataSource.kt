@@ -19,4 +19,13 @@ class MovieRemoteDataSource @Inject constructor(
 
     fun getMovieDetails(movieId : Int) : Call<MovieDetails> =
         movieService.getMovieDetails(movie_id = movieId)
+
+    fun getUpcomingMovies(page : String) : Call<Movie> =
+        movieService.getUpcomingMovies(page = page)
+
+    fun getTopRatedMovies(page : String) : Call<Movie> =
+        movieService.getTopRatedMovies(page = page)
+
+    fun getNowPlayingMovies(page : String) : Call<Movie> =
+        movieService.getNowPlayingMovies(page = page)
 }

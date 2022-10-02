@@ -3,14 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/cursor_color.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/customcardviewstyle.xml" value="0.116" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.116" />
+        <entry key="app/src/main/res/drawable/progressbar_background.xml" value="0.116" />
         <entry key="app/src/main/res/drawable/rounded_background.xml" value="0.116" />
         <entry key="app/src/main/res/drawable/splashscreen.xml" value="0.116" />
+        <entry key="app/src/main/res/drawable/splashscreen_background.xml" value="0.1" />
         <entry key="app/src/main/res/layout-v26/movie_item.xml" value="0.23596014492753623" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_movie.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_movie_details.xml" value="0.11356466876971609" />
+        <entry key="app/src/main/res/layout/fragment_movie.xml" value="0.13793103448275862" />
+        <entry key="app/src/main/res/layout/fragment_movie_details.xml" value="0.20334320068359377" />
         <entry key="app/src/main/res/layout/fragment_splash_screen.xml" value="0.18840579710144928" />
         <entry key="app/src/main/res/layout/movie_item.xml" value="0.1" />
       </map>

@@ -13,6 +13,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val movieRepository: MovieRepository
 ) : ViewModel() {
 
+    fun getMovieIsLoading() : LiveData<Boolean> = movieRepository.getIsLoadingData()
     private val movieDetail = MutableLiveData<MovieDetails>()
     fun getMovieDetailLiveData() : LiveData<MovieDetails> = movieDetail
 
