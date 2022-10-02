@@ -7,6 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapplication.R
 import com.example.moviesapplication.data.model.Genre
@@ -20,11 +22,13 @@ import com.squareup.picasso.Picasso
 class MovieAdapter(
     private var results: List<Result>,
     private var _genres : Genres
-) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(), MovieClickListener {
+) : PagingDataAdapter<Result,MovieAdapter.MovieViewHolder>(MOVIE_COMPARATOR), MovieClickListener {
 
-    private var filterResult = listOf<Result>()
 
     class MovieViewHolder(var view : MovieItemBinding) : RecyclerView.ViewHolder(view.root){
+        fun bind(result: Result){
+            view.result = result
+        }
 
 
     }
@@ -36,7 +40,10 @@ class MovieAdapter(
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.view.result = results[position]
+        val currentItem = results[position]
+        currentItem?.let {
+            holder.bind(currentItem)
+        }
         holder.view.genres = _genres
         holder.view.listener = this
 
@@ -62,5 +69,18 @@ class MovieAdapter(
         val id = Integer.parseInt(movieItemId.text.toString())
         val action = MovieFragmentDirections.actionMovieFragmentToMovieDetailsFragment(id)
         Navigation.findNavController(v).navigate(action)
+    }
+
+    companion object {
+        private val MOVIE_COMPARATOR = object : DiffUtil.ItemCallback<Result>(){
+            override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+        }
     }
 }

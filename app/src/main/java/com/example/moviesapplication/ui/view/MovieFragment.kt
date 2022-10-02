@@ -28,7 +28,7 @@ class MovieFragment : Fragment() {
     private var page = 1
     private val layoutManager = GridLayoutManager(context,2)
     private val movieViewModel : MovieViewModel by viewModels()
-    private val movieAdapter = MovieAdapter(arrayListOf(),Genres(listOf()))
+    private val movieAdapter = MovieAdapter(emptyList(),Genres(listOf()))
     private var movieListForFiltering = mutableListOf<Result>()
 
 
@@ -55,6 +55,8 @@ class MovieFragment : Fragment() {
 
         binding.movieList.layoutManager = layoutManager
         binding.movieList.adapter = movieAdapter
+        binding.movieList.setHasFixedSize(true)
+
 
         setUpSearchMovie()
         clickChips()
